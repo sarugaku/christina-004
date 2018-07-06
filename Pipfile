@@ -1,0 +1,6 @@
+[dev-packages]
+invoke = '*'
+pytest = '*'
+
+[scripts]
+christina = 'python -m christina'
