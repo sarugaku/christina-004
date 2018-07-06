@@ -45,6 +45,12 @@ together to make Pipenv better!
 🤖🌰🍚💨
 """
 
+KEYWORDS = {
+    'duplicates', 'duplicate',
+    'dupe', 'dupes',
+    'dup', 'dups',
+}
+
 
 @router.register('issue_comment', action='created')
 async def close_duplicate(event, github, session):
@@ -68,10 +74,10 @@ async def close_duplicate(event, github, session):
     if not await actions.is_by_admin(github, data['comment']):
         return
 
-    words = set(utils.find_words(data['comment']['body']))
-    if f'@{envs.USERNAME}' not in words:
+    words = set(w.lower() for w in utils.find_words(data['comment']['body']))
+    if f'@{envs.USERNAME}'.lower() not in words:
         return
-    if not any(w in words for w in ['duplicate', 'dupe', 'dup']):
+    if not any(w in words for w in KEYWORDS):
         return
 
     ref_issue_numbers = set(utils.iter_issue_number(words))
