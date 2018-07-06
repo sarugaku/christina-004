@@ -28,7 +28,7 @@ async def main(request):
             return web.Response(status=200)
         async with aiohttp.ClientSession() as session:
             github = gidgethub.aiohttp.GitHubAPI(
-                session, envs.FUTURE_GADGET_LAB,
+                session, envs.USERNAME,
                 oauth_token=envs.GITHUB_TOKEN,
                 cache=cache,
             )
