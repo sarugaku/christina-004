@@ -10,3 +10,5 @@ dist
 *.py[co]
 
 christina.cfg
+
+/.vscode/
