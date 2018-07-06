@@ -74,7 +74,7 @@ async def close_duplicate(event, github, session):
     if not any(w in words for w in KEYWORDS):
         return
 
-    ref_issue_numbers = set(utils.iter_issue_number(words))
+    ref_issue_numbers = sorted(set(utils.iter_issue_number(words)))
     if not ref_issue_numbers:
         return
 
