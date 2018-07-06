@@ -85,7 +85,7 @@ async def close_duplicate(event, github, session):
         return
 
     t = HEADER_TEMPLATES[0 if len(ref_issue_numbers) > 1 else 1]
-    header = t.format(issue_list=', '.join(f'#{n}' for n in ref_issue_numbers))
+    header = t.format(issue_list=' '.join(f'#{n}' for n in ref_issue_numbers))
     message = header + '\n' + BLABBER
 
     current_issue_no = data['issue']['number']
