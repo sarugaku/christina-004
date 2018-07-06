@@ -4,7 +4,7 @@ Christina 004
 
 An issue tracker maintenance bot for pypa/pipenv.
 
-Christina is the Assisntant. Lab member 004.
+Christina is the Assistant. Lab member 004.
 
 
 Setup
