@@ -2,7 +2,10 @@
 python_version = '3.7'
 
 [packages]
+christina-004 = { path = '.', editable = true }
+
 aiohttp = '*'
+cachetools = '*'
 gidgethub = '*'
 
 # Hack to avoid installing idna-ssl on Python 3.7.
