@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "0df92cc852803b6c74f32f278f4588a326c4146e587bea7cc52ea970b9791d48"
+            "sha256": "d39be3a9e2770481814a61759de8ed6ef65f4f9219448758600407b58182779d"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -67,7 +67,7 @@
             ],
             "version": "==3.0.4"
         },
-        "christina": {
+        "christina-004": {
             "editable": true,
             "path": "."
         },

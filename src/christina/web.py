@@ -1,20 +1,19 @@
 import asyncio
 import logging
-import os
 
 import aiohttp
 import aiohttp.web as web
 import cachetools
 import gidgethub.aiohttp
-import gidgethub.routing
 import gidgethub.sansio
+
+from . import envs
+from .routers import router
 
 
 cache = cachetools.LRUCache(maxsize=100)    # Size is set arbitraily.
 
 logger = logging.getLogger('')
-
-router = gidgethub.routing.Router()
 
 
 async def main(request):
@@ -22,21 +21,21 @@ async def main(request):
         body = await request.read()
         event = gidgethub.sansio.Event.from_http(
             request.headers, body,
-            secret=os.environ['GITHUB_SECRET'],
+            secret=envs.GITHUB_SECRET,
         )
-        logger.info('GitHub delivery ID %(id)s', id=event.delivery_id)
+        logger.debug('GitHub delivery ID %s', event.delivery_id)
         if event.event == 'ping':
             return web.Response(status=200)
         async with aiohttp.ClientSession() as session:
             github = gidgethub.aiohttp.GitHubAPI(
-                session, os.environ['FUTURE_GADGET_LAB'],
-                oauth_token=os.environ['GITHUB_OAUTH_TOKEN'],
+                session, envs.FUTURE_GADGET_LAB,
+                oauth_token=envs.GITHUB_TOKEN,
                 cache=cache,
             )
 
             # Give GitHub some time to reach internal consistency.
             await asyncio.sleep(1)
-            await router.dispatch(event, github)
+            await router.dispatch(event=event, github=github, session=session)
         return web.Response(status=200)
     except Exception as e:
         logger.exception(str(e))
@@ -47,7 +46,8 @@ def run():
     app = web.Application()
     app.router.add_post('/', main)
     try:
-        port = int(os.environ['PORT'])
+        port = int(envs.PORT)
     except KeyError:
         port = None
+    logger.info('Starting server at %d', port)
     web.run_app(app, port=port)
