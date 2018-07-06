@@ -21,22 +21,16 @@ HEADER_TEMPLATES = [
     "Kindly refer to its discussion thread for more information.",
 ]
 
-BLABBER = """
-In there future, please remember to check for all issues in the issue tracker \
-first, *both open and closed*.
+BLABBER_TEMPLATE = """
+In there future, please remember to check for all issues in the \
+[issue tracker](https://github.com/{repo}/issues) first, \
+**both open and closed**.
 
 I understand it must be very frustrating to encounter a bug. Our maintainers \
 feel your pain. They are, however, all volunteers spending free time helping \
-others. Each duplicate issue cost valuable time to respond, and has negative \
+others. Each duplicate issue costs valuable time to respond, and has negative \
 impact on constructive work that needs to be done. Please be considerate, and \
 make the best use of our available resources.
-
-GitHub’s issue search is difficult to search, and we have a lot of issues. \
-You can try searching
-
-    github pipenv issue <keywords>
-
-on Google instead. It generally finds issues better than GitHub.
 
 I am closing this issue as a duplicate to keep the tracker tidy. Sorry again \
 for the problem, and thanks so much for taking time to report it. Let’s work \
@@ -85,8 +79,10 @@ async def close_duplicate(event, github, session):
         return
 
     t = HEADER_TEMPLATES[0 if len(ref_issue_numbers) > 1 else 1]
-    header = t.format(issue_list=' '.join(f'#{n}' for n in ref_issue_numbers))
-    message = header + '\n' + BLABBER
+    message = '\n'.join([
+        t.format(issue_list=' '.join(f'#{n}' for n in ref_issue_numbers)),
+        BLABBER_TEMPLATE.format(repo=envs.FUTURE_GADGET_LAB),
+    ])
 
     current_issue_no = data['issue']['number']
     await asyncio.wait([
