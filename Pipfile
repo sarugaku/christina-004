@@ -1,3 +1,14 @@
+[requires]
+python_version = '3.7'
+
+[packages]
+aiohttp = '*'
+gidgethub = '*'
+
+# Hack to avoid installing idna-ssl on Python 3.7.
+# https://github.com/pypa/pipenv/issues/2473
+idna-ssl = { version = '*', python_version = "< '3.7'" }
+
 [dev-packages]
 invoke = '*'
 pytest = '*'
