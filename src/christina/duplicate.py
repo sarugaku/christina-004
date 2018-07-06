@@ -26,21 +26,21 @@ In there future, please remember to check for all issues in the \
 [issue tracker](https://github.com/{repo}/issues) first, \
 **both open and closed**.
 
-I understand it must be very frustrating to encounter a bug. Our maintainers \
-feel your pain. They are, however, all volunteers spending free time helping \
-others. Each duplicate issue costs valuable time to respond, and has negative \
-impact on constructive work that needs to be done. Please be considerate, and \
-make the best use of our available resources.
+It must be frustrating to encounter a bug. Our maintainers feel your pain. \
+They are, however, volunteers spending free time helping others. \
+Each duplicate issue costs valuable time to respond, and has negative impact \
+on work needing to be done. \
+Please be considerate, and make the best use of our available resources.
 
-I am closing this issue as a duplicate to keep the tracker tidy. Sorry again \
-for the problem, and thanks so much for taking time to report it. Let’s work \
-together to make Pipenv better!
+This issue is closed as a duplicate to keep the tracker tidy. \
+Sorry again for the problem, and thanks so much for taking time to report it. \
+Let’s work together to make Pipenv better!
 
 🤖🌰🍚💨
 """
 
 KEYWORDS = {
-    'duplicates', 'duplicate',
+    'duplicate', 'duplicates',
     'dupe', 'dupes',
     'dup', 'dups',
 }
@@ -86,7 +86,7 @@ async def close_duplicate(event, github, session):
 
     current_issue_no = data['issue']['number']
     await asyncio.wait([
-        actions.comment(github, current_issue_no, message),
         actions.close(github, current_issue_no, labels=['duplicate']),
+        actions.comment(github, current_issue_no, message),
         actions.delete_comment(github, data['comment']['id']),
     ])
