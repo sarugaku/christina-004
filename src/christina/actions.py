@@ -57,6 +57,9 @@ async def delete_comment(github, comment_id):
 
 async def is_by_admin(github, message):
     """Check if a message is made by a project admin.
+
+    A project admin could be either a public team member, or a project
+    collaborator.
     """
     if any(value in message['author_association']
            for value in ['MEMBER', 'OWNER', 'COLLABORATOR']):

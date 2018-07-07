@@ -50,9 +50,8 @@ KEYWORDS = {
 async def close_duplicate(event, github, session):
     """Close the issue as duplicate on triggering issue comment.
 
-    The comment should be made by a public team member, of project
-    collaborator. It should mention this bot, contains one the keywords,
-    and at least one issue mention.
+    The comment should mention this bot, contains one the keywords, and at
+    least one issue mention.
 
     Example triggering comment::
 
@@ -65,8 +64,6 @@ async def close_duplicate(event, github, session):
     3. Delete the triggering comment.
     """
     data = event.data
-    if not await actions.is_by_admin(github, data['comment']):
-        return
 
     words = set(w.lower() for w in utils.find_words(data['comment']['body']))
     if f'@{envs.USERNAME}'.lower() not in words:
